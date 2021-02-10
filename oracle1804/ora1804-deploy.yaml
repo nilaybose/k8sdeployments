@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infofabric-mviews
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infofabric-mviews
+  template:
+    metadata:
+      labels:
+        app: infofabric-mviews
+    spec:
+      containers:
+        - name: infofabric-mviews
+          env:
+            - name: ORACLE_PWD
+              value: "Oracle18c"
+            - name: ORACLE_CHARACTERSET
+              value: "AL32UTF8"
+          image: nilaybose/ora:18.04
+          imagePullPolicy: "IfNotPresent"
+          volumeMounts:
+            - mountPath: /opt/oracle/oradata
+              name: ora-data
+            - mountPath: /opt/oracle/scripts/setup
+              name: ora-data
+            - mountPath: /opt/oracle/scripts/startup
+              name: ora-data
+          ports:
+            - name: transport
+              containerPort: 1521
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 4G
+            requests:
+              cpu: 1000m
+              memory: 2G
+      volumes:
+        - name: ora-data
+          persistentVolumeClaim:
+            claimName: ifofabric-mview-pvc
+
