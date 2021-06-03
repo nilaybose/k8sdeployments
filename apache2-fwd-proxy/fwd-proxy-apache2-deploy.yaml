@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fwd-proxy-apache2
+  name: fwd-proxy-apache2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fwd-proxy-apache2
+  template:
+    metadata:
+      labels:
+        app: fwd-proxy-apache2
+    spec:
+      containers:
+      - image: httpd:2.4
+        name: httpd
+        ports:
+        - containerPort: 80
+          name: http
+        volumeMounts:
+          - name: httpd-conf
+            mountPath: /usr/local/apache2/conf/httpd.conf
+            subPath: httpd.conf
+      volumes:
+        - name: httpd-conf
+          configMap:
+            name: fwd-proxy-apache2-config
+
