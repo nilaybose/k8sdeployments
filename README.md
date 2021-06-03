@@ -3,7 +3,7 @@
 
 ### Apache2 httpd 2.4 as forward proxy
 
-- Refer to the files under ./apache2-fwd-proxy
+- Refer to the files under [./apache2-fwd-proxy](https://github.com/nilaybose/k8sdeployments/tree/main/apache2-fwd-proxy)
 - Following .so are enabled in the httpd.conf present in the ConfigMap
 
 ```shell
